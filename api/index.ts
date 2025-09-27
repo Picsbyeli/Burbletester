@@ -1,60 +1,33 @@
-import express, { type Request, Response, NextFunction } from "express";
+import express from "express";
 import serverless from "serverless-http";
 import { registerRoutes } from "../server/routes";
 
 const app = express();
+
+// ✅ Basic middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-// Request logging middleware (simplified for serverless)
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      console.log(logLine);
-    }
-  });
-
+// ✅ Request logging (simplified for serverless)
+app.use((req, _res, next) => {
+  console.log(`[API] ${req.method} ${req.url}`);
   next();
 });
 
-// Register API routes
+// ✅ Register your existing API routes
 (async () => {
   await registerRoutes(app);
 })();
 
-// Error handling middleware
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  const status = err.status || err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-
-  res.status(status).json({ message });
-  console.error(err);
+// ✅ Example test endpoint
+app.get("/api/hello", (_req, res) => {
+  res.json({ message: "Hello from Vercel API 🚀" });
 });
 
-// Example API route (you can remove this if not needed)
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from API!" });
+// ✅ Error handler
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("API Error:", err);
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
-// Export for Vercel serverless
+// ✅ Export for Vercel
 export default serverless(app);
