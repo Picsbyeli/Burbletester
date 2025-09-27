@@ -599,9 +599,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get exploration items based on dungeon progress
       const allItems = await storage.getAllItems();
       const explorationItems = allItems.filter(item => 
-        item.itemType === 'healing' || 
-        item.itemType === 'utility' || 
-        item.itemType === 'treasure'
+        item.type === 'healing' || 
+        item.type === 'utility' || 
+        item.type === 'treasure'
       );
       
       if (explorationItems.length === 0) {
@@ -1800,19 +1800,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
           case 'join':
             userId = message.userId;
             sessionId = message.sessionId;
-            connections.set(userId, ws);
             
-            if (!sessionConnections.has(sessionId)) {
-              sessionConnections.set(sessionId, new Set());
+            if (userId !== null && sessionId !== null) {
+              connections.set(userId, ws);
+              
+              if (!sessionConnections.has(sessionId)) {
+                sessionConnections.set(sessionId, new Set());
+              }
+              sessionConnections.get(sessionId)!.add(ws);
+              
+              // Broadcast user joined
+              broadcastToSession(sessionId, {
+                type: 'user-joined',
+                userId,
+                timestamp: Date.now()
+              });
             }
-            sessionConnections.get(sessionId)!.add(ws);
-            
-            // Broadcast user joined
-            broadcastToSession(sessionId, {
-              type: 'user-joined',
-              userId,
-              timestamp: Date.now()
-            });
             break;
             
           case 'ready':
