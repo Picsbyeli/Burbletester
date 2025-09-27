@@ -1,17 +1,23 @@
-import express from "express";
-import serverless from "serverless-http";
-import routes from "./routes"; // ✅ local import
+const express = require("express");
+const serverless = require("serverless-http");
 
 const app = express();
-
 app.use(express.json());
 
-// Simple session middleware for testing (replace with iron-session later)
-app.use((req: any, res: any, next: any) => {
-  req.session = req.session || {};
-  next();
+// Test endpoint
+app.get("/api/hello", (req, res) => {
+  res.json({ message: "Hello from Vercel API 🚀" });
 });
 
-app.use("/api", routes);
+// Simple login
+app.post("/api/login", (req, res) => {
+  const { username } = req.body;
+  res.json({ success: true, user: username || "demo" });
+});
 
-export default serverless(app);
+// Simple progress
+app.get("/api/progress", (req, res) => {
+  res.json({ gamesPlayed: 5, score: 120 });
+});
+
+module.exports = serverless(app);
