@@ -1,23 +1,10 @@
 import express from "express";
 import serverless from "serverless-http";
+import routes from "./routes.js"; // ✅ note the .js extension (after compile)
 
 const app = express();
+
 app.use(express.json());
-
-// Test endpoint
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from Vercel API 🚀" });
-});
-
-// Simple login
-app.post("/api/login", (req, res) => {
-  const { username } = req.body;
-  res.json({ success: true, user: username || "demo" });
-});
-
-// Simple progress
-app.get("/api/progress", (req, res) => {
-  res.json({ gamesPlayed: 5, score: 120 });
-});
+app.use("/api", routes);
 
 export default serverless(app);

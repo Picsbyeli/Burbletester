@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get("/hello", (_req: any, res: any) => {
+router.get("/hello", (req, res) => {
   res.json({ message: "Hello from Vercel API 🚀" });
 });
 
@@ -12,25 +12,20 @@ router.post("/login", (req: any, res: any) => {
   // TODO: use your real auth logic here
   const user = { id: 1, username: username || "demo" };
   
-  req.session.userId = user.id;
-  
+  // For now, skip session handling until iron-session is properly configured
   res.json({ success: true, userId: user.id });
 });
 
 // example progress
 router.get("/progress", (req: any, res: any) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ error: "Not logged in" });
-  }
-  res.json({ userId: req.session.userId, gamesPlayed: 5, score: 120 });
+  // For now, return mock data without session check
+  res.json({ userId: 1, gamesPlayed: 5, score: 120 });
 });
 
 // example battle
 router.post("/battle", (req: any, res: any) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ error: "Not logged in" });
-  }
-  res.json({ result: "You won 🎉", opponent: req.body.opponentId });
+  // For now, return mock data without session check
+  res.json({ result: "You won 🎉", opponent: req.body.opponentId || "bot" });
 });
 
 export default router;
