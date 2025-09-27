@@ -1,7 +1,7 @@
 // api/index.ts
 import express from "express";
 import serverless from "serverless-http";
-import routes from "../server/routes"; // adjust path if needed
+import routes from "../server/routes";
 
 const app = express();
 
