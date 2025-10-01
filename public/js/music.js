@@ -186,80 +186,35 @@ document.getElementById("search-btn").addEventListener("click", async () => {
     return;
   }
 
-  alert("Enter a YouTube or Spotify link, or connect APIs for text search!");
-});
-
-function addToCurrentPlaylist(track) {
-  if (!currentPlaylist) return;
-  playlists[currentPlaylist].push(track);
-  if (user) {
-    savePlaylists();
-  } else {
-    saveGuestPlaylists();
-  }
-}
-
-// ========== PLAY TRACK ==========
-function playTrack(track) {
-  cleanup();
-
-  if (!track) {
-    nowPlaying.textContent = "Now Playing: None";
-    return;
-  }
-  
-  nowPlaying.textContent = "Now Playing: " + track.name;
-
-  if (track.type === "local") {
-    audioPlayer.src = track.url;
-    audioPlayer.style.display = "block";
-    youtubePlayerDiv.style.display = "none";
-    audioPlayer.play().catch(e => console.log("Audio play failed:", e));
-  }
-
-  if (track.type === "youtube") {
-    const vidId = extractYouTubeId(track.url);
-    if (vidId) {
-      youtubePlayerDiv.innerHTML = `<iframe width="300" height="150"
-        src="https://www.youtube.com/embed/${vidId}?autoplay=1"
-        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-      youtubePlayerDiv.style.display = "block";
-      audioPlayer.style.display = "none";
+  // Otherwise attempt YouTube text search (top 5)
+  try {
+    const ytRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&q=${encodeURIComponent(query)}&key=AIzaSyAtTsnqvnVajLBFyP69xqcD2EJC7h9nV1Q`);
+    const ytData = await ytRes.json();
+    if (ytData.items && ytData.items.length) {
+      // Take first result
+      const first = ytData.items[0];
+      const videoId = first.id.videoId;
+      const title = first.snippet.title;
+      const track = { type: 'youtube', url: `https://www.youtube.com/watch?v=${videoId}`, name: title };
+      playTrack(track);
+      addToCurrentPlaylist(track);
+    } else {
+      alert('No YouTube results found for that search.');
     }
+  } catch (err) {
+    console.error('YouTube search failed', err);
+    alert('YouTube search failed.');
   }
-
-  if (track.type === "spotify") {
-    let embedUrl = track.url.replace("open.spotify.com", "open.spotify.com/embed");
-    youtubePlayerDiv.innerHTML = `<iframe src="${embedUrl}" width="300" height="150" frameborder="0"
-      allow="autoplay; encrypted-media"></iframe>`;
-    youtubePlayerDiv.style.display = "block";
-    audioPlayer.style.display = "none";
-  }
-}
-
-function cleanup() {
-  youtubePlayerDiv.innerHTML = "";
-  youtubePlayerDiv.style.display = "none";
-  audioPlayer.pause();
-  audioPlayer.src = "";
-  audioPlayer.style.display = "none";
-}
-
-// ========== YOUTUBE HELPERS ==========
-function extractYouTubeId(url) {
-  let reg = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]+)/;
-  let match = url.match(reg);
-  return match ? match[1] : null;
-}
+});
 
 // ========== SPOTIFY LOGIN ==========
 document.getElementById("login-spotify").addEventListener("click", () => {
   const clientId = "836517f7831341f3a342af90f5c1390e"; // Your Spotify Client ID
-  const redirectUri = encodeURIComponent(window.location.origin);
+  const redirectUri = "https://picsbyeli.github.io/E.vol/"; // Production redirect URI
   const scope = encodeURIComponent("playlist-read-private user-library-read");
-  
-  window.location.href = 
-    `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=${scope}`;
+
+  window.location.href =
+    `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
 });
 
 // Handle Spotify OAuth return
