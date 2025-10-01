@@ -254,7 +254,7 @@ function extractYouTubeId(url) {
 
 // ========== SPOTIFY LOGIN ==========
 document.getElementById("login-spotify").addEventListener("click", () => {
-  const clientId = "YOUR_SPOTIFY_CLIENT_ID"; // Replace with your Spotify Client ID
+  const clientId = "836517f7831341f3a342af90f5c1390e"; // Your Spotify Client ID
   const redirectUri = encodeURIComponent(window.location.origin);
   const scope = encodeURIComponent("playlist-read-private user-library-read");
   
@@ -300,7 +300,7 @@ async function fetchSpotifyPlaylists() {
 async function fetchYouTubePlaylists(token) {
   if (!token) return;
   try {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&key=YOUR_YOUTUBE_API_KEY`, {
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&key=AIzaSyAtTsnqvnVajLBFyP69xqcD2EJC7h9nV1Q`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await res.json();

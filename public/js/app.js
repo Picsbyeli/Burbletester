@@ -112,13 +112,16 @@ nowPlaying.onclick = playFirstLocal;
 
 // 1) Put your Firebase web config here if you enable it:
 const FIREBASE = {
-  enabled: false,     // set true when you're ready
+  enabled: true,     // set true when you're ready
   config: {
-    apiKey:        "YOUR_API_KEY",
-    authDomain:    "YOUR_AUTH_DOMAIN",
-    projectId:     "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_BUCKET",
-    appId:         "YOUR_APP_ID",
+    apiKey: "AIzaSyD5In_8cVRzcEWpOd7u16eQ0w_bJbz39io",
+    authDomain: "evol-b02ac.firebaseapp.com",
+    databaseURL: "https://evol-b02ac-default-rtdb.firebaseio.com",
+    projectId: "evol-b02ac",
+    storageBucket: "evol-b02ac.firebasestorage.app",
+    messagingSenderId: "556948955579",
+    appId: "1:556948955579:web:98d9b3c47e34682ff3649e",
+    measurementId: "G-DC5956Y2G1"
   }
 };
 
