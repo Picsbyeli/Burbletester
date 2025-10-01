@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Imposter · E.Vol</title>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body class="gradient">
+  <div class="container">
+    <a class="btn-back" href="./index.html">← Back to Home</a>
+    <div class="wrap">
+      <h2>🦎 Imposter (Chameleon)</h2>
+
+      <div class="row">
+        <div class="col">
+          <h3>Lobby</h3>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+            <input id="name" placeholder="Your name" />
+            <input id="lobbyId" placeholder="Lobby ID" />
+            <button id="createBtn">Create</button>
+            <button id="joinBtn">Join</button>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0">
+            <label>Category:</label>
+            <select id="categorySel">
+              <option>Animals</option><option>Foods</option><option>Sports</option><option>School</option>
+            </select>
+            <button id="setCategoryBtn">Set</button>
+          </div>
+
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0">
+            <button id="startRoundBtn">Start Round</button>
+            <button id="toVoteBtn">Go to Vote</button>
+            <button id="revealBtn">Reveal</button>
+          </div>
+
+          <ul id="players" class="players"></ul>
+        </div>
+
+        <div class="col">
+          <h3>Round</h3>
+          <p id="role">Join a lobby to begin.</p>
+          <p id="roundInfo"></p>
+          <div class="chat" id="chat"></div>
+          <div style="display:flex;gap:.5rem;margin-top:.5rem;">
+            <input id="clue" placeholder="Give a clue..." />
+            <button id="sendClue">Send</button>
+          </div>
+
+          <div style="display:flex;gap:.5rem;margin-top:.75rem; align-items:center;">
+            <label>Accuse:</label>
+            <select id="accuseSel"></select>
+            <button id="accuseBtn">Vote</button>
+          </div>
+
+          <div style="display:flex;gap:.5rem;margin-top:.5rem;">
+            <input id="impGuess" placeholder="Impostor guess word…" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script type="module" src="./js/imposter.js"></script>
+</body>
+</html>

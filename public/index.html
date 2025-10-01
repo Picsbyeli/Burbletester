@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>E.Vol · Games</title>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body class="gradient">
+
+  <div class="container">
+    <div class="topbar">
+      <input id="search" class="search pill" placeholder="Search games..." />
+      <button id="loginBtn" class="pill">Login with Google</button>
+      <button id="logoutBtn" class="pill" style="display:none">Logout</button>
+
+      <!-- Audio bar -->
+      <div class="audio-bar">
+        <select id="playlistSel" class="pill"></select>
+        <button id="newPlaylistBtn" class="pill">+ New</button>
+        <button id="uploadBtn" class="pill">Upload</button>
+        <input id="linkInput" class="pill" placeholder="YouTube/Spotify/Apple link" />
+        <button id="addLinkBtn" class="pill">Add</button>
+        <span id="nowPlaying" class="pill">Now Playing: None</span>
+      </div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="leader">
+      <h3>🏆 Global Leaderboard</h3>
+      <table id="boardTbl">
+        <thead><tr><th>User</th><th>Game</th><th>Score</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <footer style="text-align:center;opacity:.7;margin:2rem 0;">© 2025 E.Vol</footer>
+  </div>
+
+  <!-- Firebase (OPTIONAL: only if you enable leaderboard/login) -->
+  <!-- Replace the config in app.js if you plan to use it -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

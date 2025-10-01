@@ -1,0 +1,50 @@
+:root{color-scheme:dark light}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue","Noto Sans",sans-serif;color:#fff}
+.gradient{min-height:100vh;background:linear-gradient(180deg,#4c1d95,#2563eb)}
+.container{padding:16px}
+a.btn-back{display:inline-block;margin:.5rem 0;padding:.4rem .7rem;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);border-radius:12px;color:#fff;text-decoration:none}
+button,input,select{outline:none}
+
+/* Chess specific styles */
+.chess-wrap { max-width: 920px; margin: 2rem auto; padding: 1rem; background: rgba(255,255,255,.06); border-radius: 16px; }
+#board { width: 520px; max-width: 95vw; aspect-ratio: 1/1; }
+.chess-top { display:flex; gap:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+.chess-controls button { padding:.5rem .8rem; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); color:#fff; cursor:pointer;}
+.status { font-size:.95rem; opacity:.9 }
+
+/* Imposter game styles */
+.wrap { max-width: 1100px; margin: 1rem auto; padding:1rem; background:rgba(255,255,255,.05); border-radius:16px; }
+.row { display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap; }
+.col { flex:1 1 320px; background:rgba(255,255,255,.06); padding:1rem; border-radius:12px; }
+.players li { display:flex; justify-content:space-between; padding:.3rem 0; border-bottom:1px dashed rgba(255,255,255,.08);}
+.chat { height:240px; overflow:auto; background:rgba(0,0,0,.15); border-radius:8px; padding:.6rem; }
+.tag { font-size:.75rem; opacity:.8; margin-left:.3rem;}
+
+/* Home page styles */
+.topbar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;padding:.5rem;background:rgba(255,255,255,.06);border-radius:16px;margin:1rem auto;max-width:1100px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;max-width:1100px;margin:1rem auto}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{background:rgba(255,255,255,.1)}
+.thumb{height:120px;background:linear-gradient(135deg,#a855f7,#3b82f6)}
+.card-body{padding:.8rem}
+.card h4{margin:.1rem 0}
+.muted{opacity:.8;font-size:.85rem}
+.search{flex:1}
+.pill{padding:.35rem .6rem;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff}
+.audio-bar{display:flex;gap:.5rem;align-items:center;margin-left:auto}
+.leader{max-width:1100px;margin:1rem auto;background:rgba(255,255,255,.05);border-radius:12px;padding:.8rem}
+table{width:100%;border-collapse:collapse}
+td,th{padding:.5rem;border-bottom:1px dashed rgba(255,255,255,.08)}
+
+/* Common form styles */
+button, select, input[type=text] { 
+  background:rgba(255,255,255,.07); 
+  color:#fff; 
+  border:1px solid rgba(255,255,255,.15); 
+  border-radius:10px; 
+  padding:.45rem .7rem;
+  cursor:pointer;
+}
+button:hover { background:rgba(255,255,255,.12); }
+input:focus, select:focus { border-color:rgba(255,255,255,.3); }
