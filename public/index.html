@@ -42,7 +42,7 @@
     <div class="topbar">
       <input id="search" class="search pill" placeholder="Search games..." />
       <button id="loginBtn" class="pill">Login with Google</button>
-      <button id="logoutBtn" class="pill" style="display:none">Logout</button>
+      <button id="logoutBtn" class="pill">Logout</button>
 
       <!-- Audio bar -->
       <div class="audio-bar">
@@ -52,6 +52,25 @@
         <input id="linkInput" class="pill" placeholder="YouTube/Spotify/Apple link" />
         <button id="addLinkBtn" class="pill">Add</button>
         <span id="nowPlaying" class="pill">Now Playing: None</span>
+      </div>
+    </div>
+
+    <!-- Enhanced Music Player -->
+    <div id="music-player" class="music-player">
+      <div class="music-controls">
+        <button id="toggle-btn" class="toggle-btn">–</button>
+        <select id="playlist-select" class="pill"></select>
+        <button id="new-playlist" class="pill">+ Playlist</button>
+        <button id="upload-btn" class="pill">Upload</button>
+        <input id="music-search" class="pill" placeholder="Enter YouTube/Spotify URL..." />
+        <button id="search-btn" class="pill">Add</button>
+        <button id="login-spotify" class="pill">🎵 Spotify</button>
+        <button id="login-youtube" class="pill">📺 YouTube</button>
+      </div>
+      <div class="player-container">
+        <div id="now-playing" class="now-playing">Now Playing: None</div>
+        <audio id="audio-player" controls></audio>
+        <div id="youtube-player"></div>
       </div>
     </div>
 
@@ -77,11 +96,12 @@
       </table>
     </div>
 
-    <footer style="text-align:center;opacity:.7;margin:2rem 0;">© 2025 E.Vol</footer>
+    <footer>© 2025 E.Vol</footer>
   </div>
 
   <!-- Firebase (OPTIONAL: only if you enable leaderboard/login) -->
   <!-- Replace the config in app.js if you plan to use it -->
   <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/music.js"></script>
 </body>
 </html>
