@@ -1,40 +1,27 @@
-/*****  (A) Roblox-ish front page with search + cards  *****/
+/*****  (A) Search functionality for static game grid  *****/
 
 const GAMES = [
-  { id:'riddles',   name:'Brain Riddles',  desc:'Classic riddles & teasers',        href:'./riddles.html'   },
-  { id:'trivia',    name:'Trivia',         desc:'Multiple choice trivia',            href:'./trivia.html'    },
-  { id:'emoji',     name:'Emoji Guess',    desc:'Decode emoji phrases',              href:'./emoji.html'     },
-  { id:'word',      name:'Word Game',      desc:'Guess the hidden word',             href:'./word.html'      },
-  { id:'chess',     name:'Chess',          desc:'Play chess (guest mode)',           href:'./chess.html'     },
-  { id:'connect4',  name:'Connect 4',      desc:'Classic connect four',              href:'./connect4.html'  },
-  { id:'imposter',  name:'Imposter',       desc:'Chameleon-style multiplayer',       href:'./imposter.html'  },
-  { id:'school',    name:'School Trivia',  desc:'Educational quick quizzes',         href:'./school.html'    },
+  { id:'riddles',   name:'Brain Riddles',  desc:'Classic riddles & teasers' },
+  { id:'trivia',    name:'Trivia',         desc:'Multiple choice trivia' },
+  { id:'emoji',     name:'Emoji Guess',    desc:'Decode emoji phrases' },
+  { id:'word',      name:'Word Game',      desc:'Guess the hidden word' },
+  { id:'chess',     name:'Chess',          desc:'Play chess against AI' },
+  { id:'connect4',  name:'Connect 4',      desc:'Classic connect four' },
+  { id:'imposter',  name:'Imposter',       desc:'Find the imposter!' },
+  { id:'school',    name:'School Trivia',  desc:'Educational quick quizzes' },
 ];
 
-const grid = document.getElementById('grid');
 const search = document.getElementById('search');
+const gameCards = document.querySelectorAll('.game-card');
 
-function render(list){
-  grid.innerHTML = '';
-  list.forEach(g=>{
-    const card = document.createElement('a');
-    card.className = 'card';
-    card.href = g.href;
-    card.innerHTML = `
-      <div class="thumb"></div>
-      <div class="card-body">
-        <h4>${g.name}</h4>
-        <div class="muted">${g.desc}</div>
-      </div>
-    `;
-    grid.appendChild(card);
+// Search functionality
+search.addEventListener('input', e => {
+  const query = e.target.value.toLowerCase();
+  gameCards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    const shouldShow = text.includes(query) || query === '';
+    card.style.display = shouldShow ? 'block' : 'none';
   });
-}
-render(GAMES);
-
-search.addEventListener('input', e=>{
-  const q = e.target.value.toLowerCase();
-  render(GAMES.filter(g => g.name.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q)));
 });
 
 /*****  (B) Audio playlists (localStorage + external links or uploads)  *****/

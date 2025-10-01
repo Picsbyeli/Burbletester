@@ -1,34 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chess · E.Vol</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess - E.Vol</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard-1.0.0.min.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom, #6a11cb, #2575fc);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 15px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-back:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    #board {
+      width: 400px;
+      margin: 20px auto;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .status {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body class="gradient">
-  <div class="container">
-    <a class="btn-back" href="./index.html">← Back to Home</a>
+<body>
+  <a href="./index.html" class="btn-back">← Back to Home</a>
+  <h1>♟️ Chess</h1>
+  <p>Play chess against AI or a friend.</p>
+  <div id="board"></div>
+  <button onclick="newGame()">New Game</button>
+  <button onclick="flipBoard()">Flip Board</button>
+  <div class="status" id="status">Your turn - drag pieces to move</div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script>
+    const game = new Chess();
+    let board = Chessboard('board', {
+      draggable: true,
+      position: 'start',
+      onDrop: (source, target) => {
+        let move = game.move({ from: source, to: target, promotion: 'q' });
+        if (move === null) return 'snapback';
+        updateStatus();
+        if (!game.game_over()) {
+          setTimeout(makeAIMove, 250);
+        }
+      }
+    });
 
-    <div class="chess-wrap">
-      <div class="chess-top">
-        <h2>🎮 Chess</h2>
-        <div class="chess-controls">
-          <button id="newGameBtn">New Game</button>
-          <button id="flipBtn">Flip Board</button>
-        </div>
-      </div>
+    function makeAIMove() {
+      let moves = game.moves();
+      if (moves.length === 0) return;
+      let move = moves[Math.floor(Math.random() * moves.length)];
+      game.move(move);
+      board.position(game.fen());
+      updateStatus();
+    }
 
-      <div id="board"></div>
-      <p class="status" id="status">Ready to play.</p>
-    </div>
-  </div>
+    function updateStatus() {
+      let status = '';
+      if (game.in_checkmate()) {
+        status = game.turn() === 'b' ? 'You won!' : 'AI won!';
+      } else if (game.in_draw()) {
+        status = 'Game drawn';
+      } else if (game.in_check()) {
+        status = game.turn() === 'w' ? 'Your turn - You are in check!' : 'AI is in check';
+      } else {
+        status = game.turn() === 'w' ? 'Your turn - drag pieces to move' : 'AI is thinking...';
+      }
+      document.getElementById('status').textContent = status;
+    }
 
-  <!-- CDN libs (no bundler needed) -->
-  <script src="https://cdn.jsdelivr.net/npm/chess.js@1.0.0/dist/chess.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/www/js/chessboard-1.0.0.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/www/css/chessboard-1.0.0.min.css"/>
+    function newGame() {
+      game.reset();
+      board.start();
+      updateStatus();
+    }
 
-  <script src="./js/chess.js"></script>
+    function flipBoard() {
+      board.flip();
+    }
+
+    updateStatus();
+  </script>
 </body>
 </html>
